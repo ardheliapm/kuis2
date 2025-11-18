@@ -1,29 +1,49 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'user.g.dart'; 
+
+
+@JsonSerializable(explicitToJson: true, anyMap: true)
 class User {
-  String name;
-  String email;
-  int age;
+  @JsonKey(required: true, disallowNullValue: true)
+  final int id;
+
+  @JsonKey(required: true, disallowNullValue: true)
+  final String name;
+
+  @JsonKey(required: true, disallowNullValue: true)
+  final String email;
+
+  @JsonKey(
+    name: 'createdAt',
+    required: true,
+    fromJson: _parseDateTime,
+    toJson: _dateTimeToJson,
+  )
+  final DateTime createdAt;
 
   User({
+    required this.id,
     required this.name,
     required this.email,
-    required this.age,
+    required this.createdAt,
   });
 
-  // JSON → Model
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      name: json['name'],
-      email: json['email'],
-      age: json['age'],
-    );
+  // JSON → DateTime
+  static DateTime _parseDateTime(dynamic value) {
+    if (value == null) return DateTime.now();
+    if (value is DateTime) return value;
+    if (value is String) return DateTime.parse(value);
+    return DateTime.now();
   }
 
+  // DateTime → JSON
+  static String _dateTimeToJson(DateTime date) =>
+      date.toIso8601String();
+
+  // JSON → Model
+  factory User.fromJson(Map<String, dynamic> json) =>
+      _$UserFromJson(json);
+
   // Model → JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'email': email,
-      'age': age,
-    };
-  }
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
