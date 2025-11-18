@@ -36,6 +36,9 @@ dependencies:
   # Tambahan untuk JSON Serializable
   json_annotation: ^4.8.0
 
+  shared_preferences: ^2.2.2
+  intl: ^0.18.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
