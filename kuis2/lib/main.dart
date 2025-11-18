@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'user.dart';
+// Praktikum 1: Konversi Model Dart ke JSON
 
 void main() {
   // Buat object User
